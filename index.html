@@ -1,0 +1,33 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100"/>
+	<link rel="stylesheet" href="style.css"/>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+	<script>
+	//unitilities
+	function tag(tag,text){return "<"+tag+">"+(text||'')+"</"+tag+">"}
+	var $=function(sel,cb){return [].slice.call(document.querySelectorAll(sel)).forEach(cb)}
+	$.get=function(url,ok_cb,ko_cb){
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange=function(){
+				if(xhr.readyState!=4)return;
+				if(xhr.status==200)return ok_cb(xhr.response);
+				if(ko_cb)return ko_cb(xhr.response,xhr.statusText);
+			};
+			xhr.open('GET',url);
+			xhr.send();
+		}
+	//
+	function parse(md){
+		var html=marked(md).split(/<hr\/?>/)
+		document.body.innerHTML=tag('header',html[0])+tag('aside',html[1])+tag('article',html[2]);
+		//add some color
+		$('article>h1',function(a){a.innerHTML=a.textContent.match(/^(...)(.*)/).slice(1).map(function(e){return '<span>'+e+'</span>'}).join('')});
+		$('article>h1>*:first-child',function(a,i){a.style.color="#"+['6CE0F1','FB4485','FDA333','C2E15F','D3A4F9'][i%5]});
+	}
+	</script>
+</head>
+<body onload="$.get('http://'+location.hash.slice(1),parse);"></body>
+</html>
