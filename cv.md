@@ -1,4 +1,4 @@
-#John**Doo**
+ï»¿#John**Doo**
 
 Description
 
@@ -37,8 +37,8 @@ Description
 - Date
 - University/College
 - **Diploma** _Title_
-- Spécialisation dans le domaine des systèmes temps réels et embarqués.
-- Apprentissage des type d’entrée sorties sous Arduino. Réalisation d’un quadcopter sous Beagle Bones avec calcul du WCET. Conception d’un processeur MIPS3000 sous VHDL. Implémentation d’un driver et cross-compilation du noyaux Linux pour OLinuXino
+- Description
+- Skills Learned
 
 
 #Employment
@@ -46,7 +46,7 @@ Description
 - Date
 - Location
 - **Company** Post (duration)
-- Job Title
+- Job Description
 - Capitalized
 
 #Projects
