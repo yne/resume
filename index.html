@@ -3,31 +3,36 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100"/>
-	<link rel="stylesheet" href="style.css"/>
+	<style>
+	*{margin:0;padding:0;}
+	body{padding-right:64px;}
+	aside{background:rgba(0,0,0,.8);color:#FFF;position:fixed;padding:5px;border-radius:5px;box-shadow: 0 0 4px #000;top:0;left:0;}
+	legend{font-size:large;font-family:sans-serif;display:block;}
+	aside .close{position:absolute;top:0;right:0;}
+	input[type='file']{width:91px;}/*lower value crash chromium*/
+	#canvas{padding-right: 150px;}
+	.titles_container{position:fixed;overflow-y:scroll;overflow-x:hidden;right:0;top:0;bottom:0;box-shadow: 0 0 4px 1px #000;}
+	#titles{max-width: 128px;display: block;line-height:0;}
+	#titles>*:hover{}
+	.aside_open{position:fixed;left:50%;top:0;}
+	.main .conf{position:fixed;bottom:0;left:0;}
+	aside form{background:rgba(0,0,0,.5);box-shadow:0 0 5px #000 inset;padding:5px;margin:4px;border-radius:3px;}
+
+	#ta{line-height:0;position:absolute;box-shadow:1px 1px 4px #000;background:rgba(255,255,255,.2);}
+	#ta input{border:none;text-align:center;background:none;box-shadow: 0 0 1px 0 inset;
+	text-shadow:-1px  1px 1px #FFF,1px -1px 1px #FFF,1px  1px 1px #FFF,-1px -1px 1px #FFF;}
+	</style>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
 	<script>
-	//unitilities
-	function tag(tag,text){return "<"+tag+">"+(text||'')+"</"+tag+">"}
-	var $=function(sel,cb){return [].slice.call(document.querySelectorAll(sel)).forEach(cb)}
-	$.get=function(url,ok_cb,ko_cb){
-			var xhr = new XMLHttpRequest();
-			xhr.onreadystatechange=function(){
-				if(xhr.readyState!=4)return;
-				if(xhr.status==200)return ok_cb(xhr.response);
-				if(ko_cb)return ko_cb(xhr.response,xhr.statusText);
-			};
-			xhr.open('GET',url);
-			xhr.send();
-		}
-	//
+	$=function(sel,cb){return [].slice.call(document.querySelectorAll(sel)).forEach(cb)}
+	$.get=function(url,ok_cb){var x=new XMLHttpRequest();x.onload=ok_cb;x.open('GET',url);x.send();}
 	function parse(md){
 		var html=marked(md).split(/<hr\/?>/)
-		document.body.innerHTML=tag('header',html[0])+tag('aside',html[1])+tag('article',html[2]);
-		//add some color
+		document.body.innerHTML='<header>'+html[0]+'</header><aside>'+html[1]+'</aside><article>'+html[2]+'</article>';
 		$('article>h1',function(a){a.innerHTML=a.textContent.match(/^(...)(.*)/).slice(1).map(function(e){return '<span>'+e+'</span>'}).join('')});
 		$('article>h1>*:first-child',function(a,i){a.style.color="#"+['6CE0F1','FB4485','FDA333','C2E15F','D3A4F9'][i%5]});
 	}
 	</script>
 </head>
-<body onload="$.get('http://'+location.hash.slice(1),parse);"></body>
+<body onload="$.get(location.hash?'http://'+location.hash.slice(1):'cv.md',parse);"></body>
 </html>
