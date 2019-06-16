@@ -1,9 +1,7 @@
-﻿<!DOCTYPE HTML>
-<html>
-<head>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,100"/>
-	<style>
+<!DOCTYPE HTML>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,100"/>
+<style>
 	*{padding:0;margin:0;list-style: none;}
 	header{text-align:center;}
 	aside,article{display:table-cell;padding: 1em;}
@@ -42,9 +40,9 @@
 	@media screen and (min-width:48.5em){body{font-size:1.2em;}}
 	@media screen and (min-width:64.0em){body{font-size:1.5em;}}
 	@media screen and (min-width:80.0em){body{font-size:1.7em;}}
-	</style>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
-	<script>
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+<script>
 	$=function(sel,cb){return [].slice.call(document.querySelectorAll(sel)).forEach(cb)}
 	$.get=function(url,ok_cb){var x=new XMLHttpRequest();x.onload=ok_cb;x.open('GET',url);x.send();}
 	function parse(ev){
@@ -53,7 +51,6 @@
 		$('article>h1',function(a){a.innerHTML=a.textContent.match(/^(...)(.*)/).slice(1).map(function(e){return '<span>'+e+'</span>'}).join('')});
 		$('article>h1>*:first-child',function(a,i){a.style.color="#"+['6CE0F1','FB4485','FDA333','C2E15F','D3A4F9'][i%5]});
 	}
-	</script>
-</head>
-<body onload="$.get(location.hash.slice(1)||'cv.md',parse);"></body>
-</html>
+	var url=location.hash.slice(1)||'cv.md';
+	$.get(url.split(".").length==1?'https://gist.githubusercontent.com/'+url+'/raw/', parse);
+</script>
