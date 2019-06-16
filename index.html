@@ -52,5 +52,5 @@
 		$('article>h1>*:first-child',function(a,i){a.style.color="#"+['6CE0F1','FB4485','FDA333','C2E15F','D3A4F9'][i%5]});
 	}
 	var url=location.hash.slice(1)||'cv.md';
-	$.get(url.split(".").length==1?'https://gist.githubusercontent.com/'+url+'/raw/', parse);
+	$.get(url.split(".").length==1?'https://gist.githubusercontent.com/'+url+'/raw/':url, parse);
 </script>
