@@ -1,38 +1,38 @@
-﻿#John**Doo**
+﻿# John**Doo**
 
 Description
 
 --------
 
-#Contact
+# Contact
 - [mail@example.com](mailto:mail@example.com)
 - [01 23 45 67 89](tel:0033123456789)
 - [Address](http://osm.org/)
 - City Country
 
-#Languages
+# Languages
 - VHDL, SCADE, ...
 
-#Libraries & Framework
+# Libraries & Framework
 - uClibc, BusyBox, ...
 
-#Systems & Architectures
+# Systems & Architectures
 - Plan9, MIPS, ...
 
-#Interfaces & Protocols
+# Interfaces & Protocols
 - ARINC, I2C, ...
 
-#Tools
+# Tools
 - Git, WCET, ...
 
-#Interests
+# Interests
 - Reverse engineering
 - Best practice
 - ...
 
 --------
 
-#Education
+# Education
 
 - Date
 - University/College
@@ -40,8 +40,19 @@ Description
 - Description
 - Skills Learned
 
+* Date
+* University/College
+* **Diploma** _Title_
+* Description
+* Skills Learned
 
-#Employment
+- Date
+- University/College
+- **Diploma** _Title_
+- Description
+- Skills Learned
+
+# Employment
 
 - Date
 - Location
@@ -49,7 +60,13 @@ Description
 - Job Description
 - Capitalized
 
-#Projects
+* Date
+* Location
+* **Company** Post (duration)
+* Job Description
+* Capitalized
+
+# Projects
 
 - Date
 - Language

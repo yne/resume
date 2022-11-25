@@ -1,4 +1,4 @@
 # resume
-Markdown to resume based on the excelent LaTeX template [friggeri](https://github.com/afriggeri/cv)
-# Preview
+Friggeri style Markdown to resume
+
 ![](http://i.imgur.com/D8PMF98.png)
