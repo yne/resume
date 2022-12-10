@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8"><path d="M0,2L0,0L8,0L8,2M0,4L0,3L2,3L2,4M0,6L0,5L2,5L2,6M0,8L0,7L2,7L2,8M3,5L3,3L5,3L6,4L8,4L8,5M3,8L3,6L6,6L6,7L8,7L8,8"></path></svg>'>
 <style>
 	*{padding:0;margin:0;}
 	header{text-align:center;}
@@ -46,28 +46,30 @@
 	@media screen and (min-width:64.0em){body{font-size:1.5em;}}
 	@media screen and (min-width:80.0em){body{font-size:1.7em;}}
 </style>
+<template id="home">
+<form style="white-space: pre;font-family: monospace;margin: auto;display: table;">
+Render your markdown resume using either:
+- a given file <input type="file"/>
+- a gist <a href="#yne/5b2893e0ea208583648573668a8fb0e9">#user/hash</a> identifier
+- a local example for <a href="#examples/frontend.md">frontend</a>, <a href="#examples/data_science.md">data_science</a>, <a href="#examples/embedded.md">embedded</a> (<a target=blank href="examples/frontend.md">source</a>)
+Then export as PDF using the browser <b>print</b> dialog
+</form>
+</template>
 <script type=module>
 import {parse} from "https://unpkg.com/marked@4.2.3/lib/marked.esm.js";
 const rainbow = (i) => ['6CE0F1','FB4485','FDA333','C2E15F','D3A4F9'][i%5];
+const home = document.getElementById('home').innerHTML;
 (document.body.onhashchange = function(ev) {
 	let url = location.hash.replace(/^#/,'');
-	if(!url)return document.body.innerHTML=`<h1 style="text-align:center;height:95vh">Drop a resume.md file or see some <a href="#cv.md">example</a> (<a target=blank href="cv.md">source</a>)</h1>`
-	if(url.split('.').length==1)url=`https://gist.githubusercontent.com/${url}/raw/`;
-	fetch(url).then(r=>r.text()).then(show)
+	if (!url) {
+		document.body.innerHTML = home;
+		document.forms[0].onchange = function(ev) {
+			Object.assign(new FileReader(), {onload(ev){show(ev.target.result)}}).readAsText(ev.target.files[0])
+		}
+	} else {
+		fetch(url.split('.').length==1?`https://gist.githubusercontent.com/${url}/raw/`:url).then(r=>r.text()).then(show)
+	}
 })();
-document.body.ondragover = function dragOverHandler(ev) {ev.preventDefault();}
-document.body.ondrop = function ondrop(ev) {
-  ev.preventDefault();
-  const reader = new FileReader();
-  reader.addEventListener("load", () => show(reader.result), false);
-  if (ev.dataTransfer.items) {
-    [...ev.dataTransfer.items]
-    .filter(item => item.kind === 'file')
-    .forEach(item => reader.readAsText(item.getAsFile()));
-  } else {
-    [...ev.dataTransfer.files].forEach(f => reader.readAsText(f));
-  }
-}
 function show(md) {
 	const sections = parse(md).split(/<hr\/?>/);
 	document.body.innerHTML=`<header>${sections[0]}</header><aside>${sections[1]}</aside><article>${sections[2]}</article>`;
