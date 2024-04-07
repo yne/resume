@@ -1,5 +1,5 @@
 # John **Doo**
-![optional image if you feel confident](https://thispersondoesnotexist.com/image)
+![profile image](https://thispersondoesnotexist.com/)
 Frontend Developer
 
 --------
