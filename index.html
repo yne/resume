@@ -1,31 +1,44 @@
 <!DOCTYPE HTML>
+<meta charset="utf8">
+<title>JSONresume/Markdown to Resume</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8"><path d="M0,2L0,0L8,0L8,2M0,4L0,3L2,3L2,4M0,6L0,5L2,5L2,6M0,8L0,7L2,7L2,8M3,5L3,3L5,3L6,4L8,4L8,5M3,8L3,6L6,6L6,7L8,7L8,8"></path></svg>'>
 <style>
-	*{padding:0;margin:0;}
-	header{text-align:center;}
-	aside,article{display:table-cell;padding: 1em;}
-	aside{width:25%;}
 	/*======= GLOBAL =======*/
-	body{background:#FFF;font-family:sans-serif;color:#444;white-space: initial;}
-	h1{font-size:1.1em;font-weight: 800;padding:1.2em 0 .4em 0;}
+	*{padding:0;margin:0;}
+	body{background:#FFF;font-family:sans-serif;color:#444;display:grid;column-gap: 1em;grid:"h h" "s a"/1fr 3fr}
+	h1{font-size:1.1em;font-weight: 800;padding: 1em 0 .5em 0;text-transform:capitalize}
 	ul{font-size: .8em;}
-	a{color:#448;text-decoration:inherit;}
-	a:hover{text-decoration:underline;}
+	a:any-link{color:#448;text-decoration:inherit;}
+	a:any-link:hover{text-decoration:underline;}
 	em{font-size:smaller;font-style: normal;}
+	.par:not(:empty)::before{content: ' (';}
+	.par:not(:empty)::after {content: ')';}
+	kbd::after{content: " ";}
+	kbd{
+		background: color-mix(in srgb, currentColor 10%, transparent);
+		border-radius: .4em;
+		box-shadow: 0 .1em;
+		padding: 0 .25em;
+		text-transform: capitalize;
+		display: inline-block;
+		font-size: 0.8em;
+	}
 	/*======= HEADER =======*/
 	@media screen{header{background:#444;color:#FFF;}}
-	header{border-bottom:#CCC 1px solid;font-weight:100;padding:1em 0;}
+	header{text-align:center;}
+	header{border-bottom:#CCC 1px solid;font-weight:100;padding:1em 0;grid-area: h;}
 	header>h1{font-size:2.6em;padding:0;}
 	header>h1:nth-child(1){font-weight:100;}
 	header>h1:nth-child(2){font-weight:800;}
-	header>p>img{position:absolute;top:0em;right:5%;border-radius:100%;height:9em;}
+	header img{position:absolute;top:0em;right:5%;border-radius:100%;height:8em;}
 	/* ========== SIDE ========== */
-	aside{text-align:right;}
-	aside>h1{font-size:1.0em;}
+	aside{text-align:right;grid-area: s;}
+	aside>h1{font-size:1.0em;text-transform: uppercase;}
 	aside>ul{list-style: none;}
 	@media screen and (max-width:35.5em){aside{text-align:center;}article{padding:1em !important;}}
 	/* ========== MAIN ========== */
+	article {grid-area: a;}
 	article strong{color:#000;}
 	article>ul{list-style: none;padding-bottom: 0.5em;}
 	article>ul>li{margin-left:5em;display:block;}
@@ -33,14 +46,12 @@
 	article>ul>li:nth-child(2){font-size:smaller;margin:.1em 0 0 0;opacity:.5;float:right;}
 	article>ul>li:nth-child(3){}
 	article>ul>li:nth-child(4){font-style:italic;}
-	article>ul>li:nth-child(5){margin-bottom: .5em;}
 	article>ul>li>ul{margin-left: 2em;}
 	article>ul>li>ul>li{margin-bottom: .4em;}
 	/*======== RESPONSIVE ====*/
 	@media screen and (max-width:35.5em){
-		aside{width:100%;}
-		aside,article{display:inherit;padding: 0em;}
-		header>p>img{position:initial;}
+		header img{position:initial;}
+		body{grid:"h" "s" "a"}
 	}
 	@media screen and (min-width:35.5em){body{font-size:1.0em;}}
 	@media screen and (min-width:48.5em){body{font-size:1.2em;}}
@@ -48,16 +59,23 @@
 	@media screen and (min-width:80.0em){body{font-size:1.7em;}}
 </style>
 <template id="home">
-<form style="white-space: pre;font-family: monospace;margin: auto;display: table;">
-Render your markdown resume using either:
-- a given file <input type="file"/>
-- a gist <a href="#yne/5b2893e0ea208583648573668a8fb0e9">#user/hash</a> identifier
-- a local example for <a href="#examples/frontend.md">frontend</a>, <a href="#examples/data_science.md">data_science</a>, <a href="#examples/embedded.md">embedded</a> (<a target=blank href="examples/frontend.md">source</a>)
-Then export as PDF using the browser <b>print</b> dialog
-</form>
+	<form style="white-space: pre;font-family: monospace;margin: auto;display: table;">
+		Render a <a href="https://github.com/friggeri">Friggeri</a>-Themed Resume using either:
+		- a given markdown or <a href="https://www.jsonresume.org/schema">jsonresume</a> file: <input type="file" />
+		- a gist identifier <a href="#yne/5b2893e0ea208583648573668a8fb0e9">#user/hash</a> (<a
+			href="https://gist.github.com/yne/5b2893e0ea208583648573668a8fb0e9">source</a>)
+		- some examples:
+		  * <a href="#examples/frontend.md">frontend.md</a> (<a href="examples/frontend.md">source</a>)
+		  * <a href="#examples/data_science.md">data_science.md</a> (<a href="examples/data_science.md">source</a>)
+		  * <a href="#examples/embedded.md">embedded.md</a> (<a target=blank href="examples/embedded.md">source</a>)
+		  * <a href="#examples/example.resume.json">programmer.json</a> (<a target=blank href="examples/example.resume.json">source</a>)
+		<br>
+		Then, export as PDF using the browser <b>print</b> dialog
+	</form>
 </template>
 <script type=module>
-import {parse} from "https://unpkg.com/marked@4.2.3/lib/marked.esm.js";
+import md2dom from "https://unpkg.com/md2dom@24.2.9/md2dom.js";
+const mdParser = new md2dom();
 const rainbow = (i) => ['6CE0F1','FB4485','FDA333','C2E15F','D3A4F9'][i%5];
 const home = document.getElementById('home').innerHTML;
 (document.body.onhashchange = function(ev) {
@@ -71,9 +89,35 @@ const home = document.getElementById('home').innerHTML;
 		fetch(url.split('.').length==1?`https://gist.githubusercontent.com/${url}/raw/`:url).then(r=>r.text()).then(show)
 	}
 })();
-function show(md) {
-	const sections = parse(md).split(/<hr\/?>/);
-	document.body.innerHTML=`<header>${sections[0]}</header><aside>${sections[1]}</aside><article>${sections[2]}</article>`;
+const $ = (tag, props={}, ch=[]) => ch.reduce((e,c) => (e.appendChild(c),e),Object.assign(document.createElement(tag),props));
+function json2sections(text) {
+	const {basics:{name,label,image,location=[],email,phone,url,profiles=[]}={},languages,skills,interests,references,$comment,$schema,...article} = JSON.parse(text);
+	const addr = [["address"],["postalCode","city"],["countryCode","region"]].map(g=>g.map(l=>location[l]).join(' ')).join('\n')
+	const aside = {contact:[{name:addr},{name:phone,url:`tel:${phone}`},{name:email,url:`mailto:${email}`},{url,name:url},...profiles.map(p=>({url:p.url,name:p.network+':'+p.username}))].filter(o=>o.name),languages,skills,references,interests};
+	const toDate = (start,end=null,now=new Date().toDateString()) => $('time',{dateTime:start}, [
+		new Text([start && new Date(start).getFullYear(), end && (now==(new Date(end)).toDateString() ? "now" : new Date(end).getFullYear())].filter(a=>a).join('-')),$('br'),
+		...end?[$('small',{innerText:((m)=>(m>12?(m/12).toPrecision(2)+' Years':m+' Months'))((new Date(end) - new Date(start))/2629746000|0)})]:[]
+	]);
+	const toLiAside = (val) => $("ul",{},[$('li',{}, [ $("a",{[val.url?"href":""]:val.url},[
+		$("b", {innerText:val.name||val.language}),
+		$("span", {innerText:val.reference||val.fluency||val.level||'',classList:"par"}),
+		$("div", {}, (val.keywords||[]).map((t)=>[$("kbd",{innerText:t}),new Text(" ")]).flat())
+	])])]) ;
+	const toLiArticle = (val) => $("ul",{},[
+		$('li',{},[toDate(val.date||val.releaseDate||val.startDate,val.endDate?.startsWith?.("2999")?new Date().toISOString().slice(0,10):val.endDate)]),
+		$('li',{},[new Text(val.position||val.institution||val.issuer||val.publisher||val.awarder)]),
+		$('li',{},[$("a",{[val.url?"href":""]:val.url, innerText:val.name||val.title||val.organization||val.studyType||''}),new Text(" : "+(val.description||val.area||''))]),
+		$('li',{},[new Text(val.summary)]),
+		$('li',{},(val.highlights||val.keywords||val.courses||[]).map((t)=>[$("kbd",{innerText:t}),new Text(" ")]).flat())
+	]);
+	const toHtml = (obj,toLi) => Object.entries(obj).filter(([k,v])=>v&&v.length).map(([k,v])=>[$('h1',{innerText:k}),...v.map(v=>toLi(v))]).flat()
+	return [[$('h1',{innerText:name}),image?$('img',{src:image}):$('span'),$('p',{innerText:label})], toHtml(aside,toLiAside),toHtml(article,toLiArticle)]
+}
+const md2sections = (text) => text.split(/\s*(?:\*\*\*+|---+|___+)\s*/).map(e => mdParser.parse(e));
+function show(text) {
+	const [header,aside,article] = text.startsWith('{') ? json2sections(text) : md2sections(text);
+	document.body.replaceChildren($('header',{},[...header]),$('aside', {}, [...aside]),$('article',{},[...article]));
 	document.querySelectorAll('article>h1').forEach((h1,i) => h1.innerHTML = h1.textContent.replace(/^(...)(.*)/, `<span style="color:#${rainbow(i)}">$1</span>$2`));
+	document.title = document.querySelector("header").innerText.replace(/\n+/,' - ')
 }
 </script>
